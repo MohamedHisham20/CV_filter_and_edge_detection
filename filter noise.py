@@ -30,8 +30,8 @@ class FilterNoiseWidget(QWidget):
         self.layout.addWidget(self.filter_type_menu)
         # add sliders to adjust the filter size
         self.filter_size_slider = QSlider(Qt.Horizontal)
-        self.filter_size_slider.setMinimum(1)
-        self.filter_size_slider.setMaximum(21)
+        self.filter_size_slider.setMinimum(0)
+        self.filter_size_slider.setMaximum(10)
         self.filter_size_slider.setValue(3)
         self.layout.addWidget(self.filter_size_slider)
         # add button to filter noise
@@ -98,6 +98,10 @@ class FilterNoiseWidget(QWidget):
         return filtered_image
 
     def gaussian_filter(self, image, filter_size, sigma=1.0):
+        # Ensure filter size is odd
+        if filter_size % 2 == 0:
+            filter_size += 1
+
         ax = np.linspace(-(filter_size - 1) / 2., (filter_size - 1) / 2., filter_size)
         gauss = np.exp(-0.5 * np.square(ax) / np.square(sigma))
         kernel = np.outer(gauss, gauss)
@@ -124,6 +128,6 @@ class MainWindow(QMainWindow):
 app = QApplication([])
 window = MainWindow()
 window.show()
-sys.exit(app.exec_())
+sys.exit(app.exec())
 
 

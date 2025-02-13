@@ -36,6 +36,10 @@ class AddNoiseWidget(QWidget):
         self.add_noise_button = QPushButton("Add Noise")
         self.add_noise_button.clicked.connect(self.add_noise)
         self.layout.addWidget(self.add_noise_button)
+        # add button to save image
+        self.save_image_button = QPushButton("Save Image")
+        self.save_image_button.clicked.connect(self.save_image)
+        self.layout.addWidget(self.save_image_button)
         self.setLayout(self.layout)
 
     def load_image(self):
@@ -53,6 +57,13 @@ class AddNoiseWidget(QWidget):
         qimage = QImage(self.modified_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
         pixmap = QPixmap.fromImage(qimage)
         self.image_label.setPixmap(pixmap)
+
+    def save_image(self):
+        file_name, _ = QFileDialog.getSaveFileName(self, "Save Image", "", "Image Files (*.png *.jpg *.jpeg *.bmp)")
+        if file_name:
+            # Convert the image back to BGR format before saving
+            image_to_save = cv2.cvtColor(self.modified_image, cv2.COLOR_RGB2BGR)
+            cv2.imwrite(file_name, image_to_save)
 
     def add_noise(self):
         if self.image is None:
