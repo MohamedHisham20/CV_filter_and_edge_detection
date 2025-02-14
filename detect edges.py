@@ -128,82 +128,8 @@ class DetectEdgesWidget(QWidget):
         return G
 
     def canny_edge_detection(self, image, low_threshold=50, high_threshold=150):
-        # Convert to grayscale if the image is in color
-        if len(image.shape) == 3:
-            image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-        # Step 1: Noise reduction using Gaussian filter
-        image = cv2.GaussianBlur(image, (5, 5), 1.4)
-
-        # Step 2: Gradient calculation using Sobel operator
-        Kx = np.array([[1, 0, -1], [2, 0, -2], [1, 0, -1]])
-        Ky = np.array([[1, 2, 1], [0, 0, 0], [-1, -2, -1]])
-        Ix = cv2.filter2D(image, -1, Kx)
-        Iy = cv2.filter2D(image, -1, Ky)
-        G = np.sqrt(Ix ** 2 + Iy ** 2)
-        theta = np.arctan2(Iy, Ix)
-
-        # Step 3: Non-maximum suppression
-        M, N = G.shape
-        Z = np.zeros((M, N), dtype=np.int32)
-        angle = theta * 180. / np.pi
-        angle[angle < 0] += 180
-
-        for i in range(1, M - 1):
-            for j in range(1, N - 1):
-                try:
-                    q = 255
-                    r = 255
-
-                    # angle 0
-                    if (0 <= angle[i, j] < 22.5) or (157.5 <= angle[i, j] <= 180):
-                        q = G[i, j + 1]
-                        r = G[i, j - 1]
-                    # angle 45
-                    elif 22.5 <= angle[i, j] < 67.5:
-                        q = G[i + 1, j - 1]
-                        r = G[i - 1, j + 1]
-                    # angle 90
-                    elif 67.5 <= angle[i, j] < 112.5:
-                        q = G[i + 1, j]
-                        r = G[i - 1, j]
-                    # angle 135
-                    elif 112.5 <= angle[i, j] < 157.5:
-                        q = G[i - 1, j - 1]
-                        r = G[i + 1, j + 1]
-
-                    if (G[i, j] >= q) and (G[i, j] >= r):
-                        Z[i, j] = G[i, j]
-                    else:
-                        Z[i, j] = 0
-
-                except IndexError as e:
-                    pass
-
-        # Step 4: Edge tracking by hysteresis
-        weak = 50
-        strong = 255
-        result = np.zeros_like(G)
-        strong_i, strong_j = np.where(Z >= high_threshold)
-        zeros_i, zeros_j = np.where(Z < low_threshold)
-        weak_i, weak_j = np.where((Z <= high_threshold) & (Z >= low_threshold))
-
-        result[strong_i, strong_j] = strong
-        result[weak_i, weak_j] = weak
-
-        for i in range(1, M - 1):
-            for j in range(1, N - 1):
-                if (result[i, j] == weak):
-                    if ((result[i + 1, j - 1] == strong) or (result[i + 1, j] == strong) or (
-                            result[i + 1, j + 1] == strong)
-                            or (result[i, j - 1] == strong) or (result[i, j + 1] == strong)
-                            or (result[i - 1, j - 1] == strong) or (result[i - 1, j] == strong) or (
-                                    result[i - 1, j + 1] == strong)):
-                        result[i, j] = strong
-                    else:
-                        result[i, j] = 0
-
-        return result
+        edges = cv2.Canny(image, low_threshold, high_threshold)
+        return edges
 
 
 class MainWindow(QMainWindow):

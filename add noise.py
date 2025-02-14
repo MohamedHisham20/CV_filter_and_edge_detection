@@ -24,7 +24,7 @@ class AddNoiseWidget(QWidget):
         self.layout.addWidget(self.load_image_button)
         # add dropdown menu to select the type of noise (gaussian, salt and pepper, uniform)
         self.noise_type_menu = QComboBox()
-        self.noise_type_menu.addItems(["Gaussian", "Salt and Pepper", "Uniform"])
+        self.noise_type_menu.addItems(["Gaussian", "Salt and Pepper", "Uniform", "gaussian openCV", "uniform openCV", "salt and pepper openCV"])
         self.layout.addWidget(self.noise_type_menu)
         # add sliders to adjust the noise level
         self.noise_level_slider = QSlider(Qt.Horizontal)
@@ -76,6 +76,13 @@ class AddNoiseWidget(QWidget):
             self.modified_image = self.add_salt_and_pepper_noise(self.image, level)
         elif noise == "Uniform":
             self.modified_image = self.add_uniform_noise(self.image, level)
+
+        elif noise == "gaussian openCV":
+            self.modified_image = self.add_gaussian_noise_openCV(self.image)
+        elif noise == "uniform openCV":
+            self.modified_image = self.add_uniform_noise_openCV(self.image, level)
+        elif noise == "salt and pepper openCV":
+            self.modified_image = self.add_salt_and_pepper_noise_openCV(self.image, level)
         self.show_image()
 
     def add_salt_and_pepper_noise(self, image, level):
@@ -86,25 +93,46 @@ class AddNoiseWidget(QWidget):
         noisy_image[pepper & ~salt] = 0
         return noisy_image
 
+    def add_salt_and_pepper_noise_openCV(self, image, level):
+        noisy_image = np.copy(image)
+        total_pixels = image.shape[0] * image.shape[1]
+
+        # Add salt noise
+        num_salt = int(total_pixels * level / 2)
+        salt_coords = [np.random.randint(0, i - 1, num_salt) for i in image.shape]
+        noisy_image[salt_coords[0], salt_coords[1], :] = 255
+
+        # Add pepper noise
+        num_pepper = int(total_pixels * level / 2)
+        pepper_coords = [np.random.randint(0, i - 1, num_pepper) for i in image.shape]
+        noisy_image[pepper_coords[0], pepper_coords[1], :] = 0
+
+        return noisy_image
+
     def add_gaussian_noise(self, image, level):
         noise = np.random.normal(0, 1, image.shape) * 255 * level
         noisy_image = image + noise
         noisy_image = np.clip(noisy_image, 0, 255).astype(np.uint8)
         return noisy_image
 
-    # def add_salt_and_pepper_noise(self, image, level):
-    #     noisy_image = np.copy(image)
-    #     salt = np.random.rand(*image.shape[:2]) < level / 2
-    #     pepper = np.random.rand(*image.shape[:2]) < level / 2
-    #     noisy_image[salt] = 255
-    #     noisy_image[pepper] = 0
-    #     return noisy_image
+    def add_gaussian_noise_openCV(self, image, mean=0, std=25):
+        noise = np.random.normal(mean, std, image.shape).astype(np.uint8)
+        noisy_image = cv2.add(image, noise)
+        return noisy_image
 
     def add_uniform_noise(self, image, level):
         noise = np.random.uniform(-255 * level, 255 * level, image.shape)
         noisy_image = image + noise
         noisy_image = np.clip(noisy_image, 0, 255).astype(np.uint8)
         return noisy_image
+
+    def add_uniform_noise_openCV(self, image, level):
+        # Generate uniform noise in the range [0, 255 * level]
+        noise = np.random.uniform(0, 255 * level, image.shape).astype(np.uint8)
+        noisy_image = cv2.add(image, noise)
+        noisy_image = np.clip(noisy_image, 0, 255).astype(np.uint8)
+        return noisy_image
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
