@@ -1,9 +1,10 @@
 import sys
 import numpy as np
-from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QFileDialog, QFrame, QSlider
+from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QHBoxLayout, QPushButton, QWidget, QFileDialog, QFrame, QSlider, QMessageBox
 from PySide6.QtGui import QImage, QPixmap
 from PySide6.QtCore import Qt
 import cv2
+from scipy.ndimage import uniform_filter
 
 class ThresholdingWidget(QWidget):
     def __init__(self):
@@ -50,11 +51,11 @@ class ThresholdingWidget(QWidget):
         self.layout.addWidget(self.load_image_button)
         
         # add slider to adjust the threshold value
-        self.threshold_slider = QSlider(Qt.Horizontal)
-        self.threshold_slider.setMinimum(0)
-        self.threshold_slider.setMaximum(255)
-        self.threshold_slider.setValue(128)
-        self.layout.addWidget(self.threshold_slider)
+        # self.threshold_slider = QSlider(Qt.Horizontal)
+        # self.threshold_slider.setMinimum(0)
+        # self.threshold_slider.setMaximum(255)
+        # self.threshold_slider.setValue(128)
+        # self.layout.addWidget(self.threshold_slider)
         
         # add button for local thresholding
         self.local_button = QPushButton("Local")
@@ -71,9 +72,14 @@ class ThresholdingWidget(QWidget):
     def load_image(self):
         file_name, _ = QFileDialog.getOpenFileName(self, "Open Image", "", "Image Files (*.png *.jpg *.jpeg *.bmp)")
         if file_name:
-            self.image = cv2.imread(file_name, cv2.IMREAD_GRAYSCALE)  
-            self.modified_image = self.image.copy() 
-            self.show_image(self.image_label, self.image)  
+            pixmap = QPixmap(file_name)
+            qimage = pixmap.toImage()
+            self.loaded_image = qimage  
+            self.image = cv2.imread(file_name, cv2.IMREAD_GRAYSCALE)
+            self.modified_image = self.image.copy()  
+            self.modified_image_label.clear()
+            self.show_image(self.image_label, self.image) 
+
     
     def show_image(self, label, image):
         height, width = image.shape
@@ -83,8 +89,30 @@ class ThresholdingWidget(QWidget):
         label.setPixmap(pixmap)
         label.setScaledContents(True)
             
+  
     def local_thresholding(self):
-        pass
+        if self.image is None:
+            return
+        
+        # to grayscale 
+        # gray_image = np.dot(image_array[..., :3], [0.114, 0.587, 0.299]).astype(np.uint8)
+
+        # parameters
+        block_size = 13  # must be an odd number
+        constant = 5  # Subtracted from the mean (controls contrast sort of)
+
+        # compute local mean
+        local_mean = uniform_filter(self.image, size=block_size, mode='reflect')
+
+        # Apply thresholding
+        thresholded_image = (self.image > (local_mean - constant)).astype(np.uint8) * 255
+        self.modified_image = thresholded_image 
+        
+        # to RGB
+        # self.modified_image = np.stack((thresholded_image,) * 3, axis=-1) 
+         
+        self.show_image(self.modified_image_label, self.modified_image)
+
         
     def global_thresholding(self):
         pass
@@ -92,7 +120,7 @@ class ThresholdingWidget(QWidget):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Equalize")
+        self.setWindowTitle("Thresholding")
         self.setCentralWidget(ThresholdingWidget())
 
 app = QApplication([])
