@@ -102,7 +102,7 @@ class ThresholdingWidget(QWidget):
         
         self.modified_image = cv2.adaptiveThreshold(self.image, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, block_size, constant)
         
-        # complex implementation
+        # complex implementation (method: adaptive local mean) --> similar BUT simpler than Niblack [mafee4 std deviation]
         # # compute local mean
         # local_mean = uniform_filter(self.image, size=block_size, mode='reflect')
         # # Apply thresholding
@@ -119,6 +119,12 @@ class ThresholdingWidget(QWidget):
         # parameters
         threshold, _ = cv2.threshold(self.image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         self.modified_image = cv2.threshold(self.image, threshold, 255, cv2.THRESH_BINARY)[1]
+        
+        #complex implementation (method: global mean with constant offset) --> similar BUT simpler than Otsu
+        # constant = 5
+        # mean = np.mean(self.image)
+        # threshold = mean - constant
+        # self.modified_image = (self.image > threshold).astype(np.uint8) * 255
         
         self.show_image(self.modified_image_label, self.modified_image)
             
