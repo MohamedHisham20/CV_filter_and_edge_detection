@@ -29,6 +29,7 @@ class ThresholdingWidget(QWidget):
         self.original_layout.addWidget(self.original_label)
         self.original_layout.addWidget(self.image_label)
         self.original_frame.setLayout(self.original_layout)
+        self.original_frame.setMaximumSize(600, 600)
         self.images_layout.addWidget(self.original_frame)
         self.modified_frame = QFrame()
         self.modified_label = QLabel("Output")
@@ -41,6 +42,7 @@ class ThresholdingWidget(QWidget):
         self.modified_layout.addWidget(self.modified_label)
         self.modified_layout.addWidget(self.modified_image_label)
         self.modified_frame.setLayout(self.modified_layout)
+        self.modified_frame.setMaximumSize(600, 600)
         self.images_layout.addWidget(self.modified_frame)
         self.images_frame.setLayout(self.images_layout)
         self.layout.addWidget(self.images_frame)
@@ -94,28 +96,31 @@ class ThresholdingWidget(QWidget):
         if self.image is None:
             return
         
-        # to grayscale 
-        # gray_image = np.dot(image_array[..., :3], [0.114, 0.587, 0.299]).astype(np.uint8)
-
         # parameters
         block_size = 13  # must be an odd number
         constant = 5  # Subtracted from the mean (controls contrast sort of)
-
-        # compute local mean
-        local_mean = uniform_filter(self.image, size=block_size, mode='reflect')
-
-        # Apply thresholding
-        thresholded_image = (self.image > (local_mean - constant)).astype(np.uint8) * 255
-        self.modified_image = thresholded_image 
         
-        # to RGB
-        # self.modified_image = np.stack((thresholded_image,) * 3, axis=-1) 
+        self.modified_image = cv2.adaptiveThreshold(self.image, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, block_size, constant)
+        
+        # complex implementation
+        # # compute local mean
+        # local_mean = uniform_filter(self.image, size=block_size, mode='reflect')
+        # # Apply thresholding
+        # thresholded_image = (self.image > (local_mean - constant)).astype(np.uint8) * 255
+        # self.modified_image = thresholded_image 
          
         self.show_image(self.modified_image_label, self.modified_image)
 
         
     def global_thresholding(self):
-        pass
+        if self.image is None:
+            return
+        
+        # parameters
+        threshold, _ = cv2.threshold(self.image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        self.modified_image = cv2.threshold(self.image, threshold, 255, cv2.THRESH_BINARY)[1]
+        
+        self.show_image(self.modified_image_label, self.modified_image)
             
 class MainWindow(QMainWindow):
     def __init__(self):
