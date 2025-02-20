@@ -18,10 +18,9 @@ class DetectEdgesWidget(QWidget):
         self.layout = QVBoxLayout()
         self.image_label = QLabel()
         # temporary fix for size issues
-        self.image_label.setAlignment(Qt.AlignCenter)
         self.image_label.setMaximumSize(600, 400)
         
-        self.layout.addWidget(self.image_label)
+        self.layout.addWidget(self.image_label, alignment=Qt.AlignCenter)
         # add button to load image
         self.load_image_button = QPushButton("Load Image")
         self.load_image_button.clicked.connect(self.load_image)
