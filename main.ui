@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1399</width>
+    <height>668</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Image Manipulation</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QTabWidget" name="main">
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="Filters_tab">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <attribute name="title">
+        <string>Filters</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="Noise_tab">
+       <attribute name="title">
+        <string>Noise</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="Edges_tab">
+       <attribute name="title">
+        <string>Edge Detection</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="Equalization_tab">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <attribute name="title">
+        <string>Equalization</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="Normalization_tab">
+       <attribute name="title">
+        <string>Normalization</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="Thresholding_tab">
+       <attribute name="title">
+        <string>Thresholding</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="Hybrid_tab">
+       <attribute name="title">
+        <string>Hybrid</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="Histograms_tab">
+       <attribute name="title">
+        <string>Histograms</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

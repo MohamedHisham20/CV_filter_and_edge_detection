@@ -21,28 +21,28 @@ class ThresholdingWidget(QWidget):
        
         self.original_label = QLabel("Input")
         self.original_label.setAlignment(Qt.AlignCenter)
-        self.original_label.setMaximumSize(800, 100)
+        self.original_label.setMaximumSize(800, 20)
         self.original_layout = QVBoxLayout()
         self.image_label = QLabel()
-        self.image_label.setMaximumSize(800, 500)
+        self.image_label.setMaximumSize(600, 400)
         self.image_label.setAlignment(Qt.AlignCenter)
         self.original_layout.addWidget(self.original_label)
         self.original_layout.addWidget(self.image_label)
         self.original_frame.setLayout(self.original_layout)
-        self.original_frame.setMaximumSize(600, 600)
+        self.original_frame.setMaximumSize(600, 700)
         self.images_layout.addWidget(self.original_frame)
         self.modified_frame = QFrame()
         self.modified_label = QLabel("Output")
         self.modified_label.setAlignment(Qt.AlignCenter)
-        self.modified_label.setMaximumSize(600, 100)
+        self.modified_label.setMaximumSize(600, 20)
         self.modified_layout = QVBoxLayout()
         self.modified_image_label = QLabel()
-        self.modified_image_label.setMaximumSize(600, 500)
+        self.modified_image_label.setMaximumSize(600, 400)
         self.modified_image_label.setAlignment(Qt.AlignCenter)
         self.modified_layout.addWidget(self.modified_label)
         self.modified_layout.addWidget(self.modified_image_label)
         self.modified_frame.setLayout(self.modified_layout)
-        self.modified_frame.setMaximumSize(600, 600)
+        self.modified_frame.setMaximumSize(600, 700)
         self.images_layout.addWidget(self.modified_frame)
         self.images_frame.setLayout(self.images_layout)
         self.layout.addWidget(self.images_frame)
@@ -100,14 +100,14 @@ class ThresholdingWidget(QWidget):
         block_size = 13  # must be an odd number
         constant = 5  # Subtracted from the mean (controls contrast sort of)
         
-        self.modified_image = cv2.adaptiveThreshold(self.image, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, block_size, constant)
+        # self.modified_image = cv2.adaptiveThreshold(self.image, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, block_size, constant)
         
         # complex implementation (method: adaptive local mean) --> similar BUT simpler than Niblack [mafee4 std deviation]
-        # # compute local mean
-        # local_mean = uniform_filter(self.image, size=block_size, mode='reflect')
-        # # Apply thresholding
-        # thresholded_image = (self.image > (local_mean - constant)).astype(np.uint8) * 255
-        # self.modified_image = thresholded_image 
+        # compute local mean
+        local_mean = uniform_filter(self.image, size=block_size, mode='reflect')
+        # Apply thresholding
+        thresholded_image = (self.image > (local_mean - constant)).astype(np.uint8) * 255
+        self.modified_image = thresholded_image 
          
         self.show_image(self.modified_image_label, self.modified_image)
 
@@ -117,24 +117,24 @@ class ThresholdingWidget(QWidget):
             return
         
         # parameters
-        threshold, _ = cv2.threshold(self.image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-        self.modified_image = cv2.threshold(self.image, threshold, 255, cv2.THRESH_BINARY)[1]
+        # threshold, _ = cv2.threshold(self.image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+        # self.modified_image = cv2.threshold(self.image, threshold, 255, cv2.THRESH_BINARY)[1]
         
         #complex implementation (method: global mean with constant offset) --> similar BUT simpler than Otsu
-        # constant = 5
-        # mean = np.mean(self.image)
-        # threshold = mean - constant
-        # self.modified_image = (self.image > threshold).astype(np.uint8) * 255
+        constant = 5
+        mean = np.mean(self.image)
+        threshold = mean - constant
+        self.modified_image = (self.image > threshold).astype(np.uint8) * 255
         
         self.show_image(self.modified_image_label, self.modified_image)
             
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Thresholding")
-        self.setCentralWidget(ThresholdingWidget())
+# class MainWindow(QMainWindow):
+#     def __init__(self):
+#         super().__init__()
+#         self.setWindowTitle("Thresholding")
+#         self.setCentralWidget(ThresholdingWidget())
 
-app = QApplication([])
-window = MainWindow()
-window.show()
-sys.exit(app.exec())
+# app = QApplication([])
+# window = MainWindow()
+# window.show()
+# sys.exit(app.exec())

@@ -19,6 +19,11 @@ class FilterNoiseWidget(QWidget):
         self.setWindowTitle("Filter Noise")
         self.layout = QVBoxLayout()
         self.image_label = QLabel()
+        
+        # temporary fix for size issues
+        self.image_label.setAlignment(Qt.AlignCenter)
+        self.image_label.setMaximumSize(600, 400)
+        
         self.layout.addWidget(self.image_label)
         # add button to load image
         self.load_image_button = QPushButton("Load Image")
@@ -55,6 +60,10 @@ class FilterNoiseWidget(QWidget):
         qimage = QImage(self.modified_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
         pixmap = QPixmap.fromImage(qimage)
         self.image_label.setPixmap(pixmap)
+        
+        # temporary fix for size issues
+        self.image_label.setPixmap(pixmap)
+        self.image_label.setScaledContents(True)  
 
     def filter_noise(self):
         if self.image is None:
@@ -119,15 +128,15 @@ class FilterNoiseWidget(QWidget):
 
         return filtered_image
 
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Filter Noise")
-        self.setCentralWidget(FilterNoiseWidget())
+# class MainWindow(QMainWindow):
+#     def __init__(self):
+#         super().__init__()
+#         self.setWindowTitle("Filter Noise")
+#         self.setCentralWidget(FilterNoiseWidget())
 
-app = QApplication([])
-window = MainWindow()
-window.show()
-sys.exit(app.exec())
+# app = QApplication([])
+# window = MainWindow()
+# window.show()
+# sys.exit(app.exec())
 
 

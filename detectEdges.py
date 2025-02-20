@@ -17,6 +17,10 @@ class DetectEdgesWidget(QWidget):
         self.setWindowTitle("Detect Edges")
         self.layout = QVBoxLayout()
         self.image_label = QLabel()
+        # temporary fix for size issues
+        self.image_label.setAlignment(Qt.AlignCenter)
+        self.image_label.setMaximumSize(600, 400)
+        
         self.layout.addWidget(self.image_label)
         # add button to load image
         self.load_image_button = QPushButton("Load Image")
@@ -62,6 +66,10 @@ class DetectEdgesWidget(QWidget):
             return
         pixmap = QPixmap.fromImage(qimage)
         self.image_label.setPixmap(pixmap)
+        
+        # temporary fix for size issues
+        self.image_label.setPixmap(pixmap)
+        self.image_label.setScaledContents(True)  
 
     def detect_edges(self):
         if self.image is None:
@@ -132,15 +140,15 @@ class DetectEdgesWidget(QWidget):
         return edges
 
 
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("Detect Edges")
-        self.setCentralWidget(DetectEdgesWidget())
+# class MainWindow(QMainWindow):
+#     def __init__(self):
+#         super().__init__()
+#         self.setWindowTitle("Detect Edges")
+#         self.setCentralWidget(DetectEdgesWidget())
 
-app = QApplication([])
-window = MainWindow()
-window.show()
-sys.exit(app.exec())
+# app = QApplication([])
+# window = MainWindow()
+# window.show()
+# sys.exit(app.exec())
 
 
