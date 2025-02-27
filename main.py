@@ -8,6 +8,7 @@ from filterNoise import FilterNoiseWidget
 from detectEdges import DetectEdgesWidget
 import sys
 
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -62,8 +63,9 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.ui.findChild(QWidget, "centralwidget"))
 
 
-app = QApplication([])
-window = MainWindow()
-window.show()
-window.showMaximized()
-sys.exit(app.exec())
+if __name__ == "__main__":
+    app = QApplication([])
+    window = MainWindow()
+    window.show()
+    window.showMaximized()
+    sys.exit(app.exec())
