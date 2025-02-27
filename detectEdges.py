@@ -1,9 +1,7 @@
-import sys
 import numpy as np
-from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QPushButton, QWidget, QFileDialog, \
-    QComboBox, QSlider, QHBoxLayout, QGroupBox
+from PySide6.QtWidgets import QLabel, QVBoxLayout, QPushButton, QWidget, QFileDialog, QComboBox,\
+    QSlider, QHBoxLayout, QGroupBox
 from PySide6.QtGui import QImage, QPixmap, Qt
-from PySide6.QtCore import QSize
 import cv2
 
 
@@ -147,7 +145,11 @@ class DetectEdgesWidget(QWidget):
 
         # Convert to grayscale if needed
         if len(self.image.shape) == 3:
-            gray = cv2.cvtColor(self.image, cv2.COLOR_BGR2GRAY)
+            #create a copy to preserve shape
+            gray = np.zeros((self.image.shape[0], self.image.shape[1]), dtype=np.uint8)
+            for i in range(self.image.shape[0]):
+                for j in range(self.image.shape[1]):
+                    gray[i, j] = 0.299 * self.image[i, j, 2] + 0.587 * self.image[i, j, 1] + 0.114 * self.image[i, j, 0] #BGR format
         else:
             gray = self.image.copy()
 
@@ -208,8 +210,13 @@ class DetectEdgesWidget(QWidget):
         G = np.sqrt(Ix ** 2 + Iy ** 2)
         G = np.clip(G, 0, 255).astype(np.uint8)
 
-        # Apply threshold
-        _, G = cv2.threshold(G, threshold, 255, cv2.THRESH_BINARY)
+        # Apply threshold and convert to binary
+        for i in range(rows):
+            for j in range(cols):
+                if G[i, j] < threshold:
+                    G[i, j] = 0
+                else:
+                    G[i, j] = 255
 
         return G
 
@@ -239,8 +246,13 @@ class DetectEdgesWidget(QWidget):
         # Normalize and convert to uint8
         G = np.clip(G, 0, 255).astype(np.uint8)
 
-        # Apply threshold
-        _, G = cv2.threshold(G, threshold, 255, cv2.THRESH_BINARY)
+        # Apply threshold and convert to binary
+        for i in range(rows):
+            for j in range(cols):
+                if G[i, j] < threshold:
+                    G[i, j] = 0
+                else:
+                    G[i, j] = 255
 
         return G
 
@@ -289,8 +301,13 @@ class DetectEdgesWidget(QWidget):
         G = np.sqrt(Ix ** 2 + Iy ** 2)
         G = np.clip(G, 0, 255).astype(np.uint8)
 
-        # Apply threshold
-        _, G = cv2.threshold(G, threshold, 255, cv2.THRESH_BINARY)
+        # Apply threshold and convert to binary
+        for i in range(rows):
+            for j in range(cols):
+                if G[i, j] < threshold:
+                    G[i, j] = 0
+                else:
+                    G[i, j] = 255
 
         return G
 
