@@ -84,7 +84,7 @@ class HybridImagesWidget(QWidget):
         kernel_label = QLabel("Kernel Size:")
         self.kernel_spinbox = QSpinBox()
         self.kernel_spinbox.setMinimum(1)
-        self.kernel_spinbox.setMaximum(15)
+        self.kernel_spinbox.setMaximum(51)
         self.kernel_spinbox.setValue(5)
         self.kernel_spinbox.setSingleStep(2)  # Step by 2 to maintain odd numbers
         self.kernel_spinbox.valueChanged.connect(self.update_kernel_value)
