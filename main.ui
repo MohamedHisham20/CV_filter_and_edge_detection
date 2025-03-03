@@ -13,7 +13,253 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">/* Main application background */
+QMainWindow {
+    background-color: #D7CBBD;
+}
+
+/* Main container widget */
+QWidget#centralwidget {
+    background-color: #D7CBBD;
+}
+
+/* Main title label */
+QLabel#label {
+    color: #3E2B22;
+    font-size: 20pt;
+    font-weight: normal;
+    padding: 10px;
+    background-color: #645B4E;
+    border-radius: 10px;
+    color: #D7CBBD;
+}
+
+/* Tab Widget styling */
+QTabWidget::pane {
+    background-color: #645B4E;
+    border: 3px solid #3E2B22;
+    border-radius: 20px;
+    padding: 5px;
+}
+
+QTabWidget::tab-bar {
+    alignment: center;
+}
+
+QTabBar::tab {
+    background-color: #F2EEEB;
+    color: #645B4E;
+    font-weight: bold;
+    border: 2px solid #3E2B22;
+    border-bottom: none;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding: 8px 15px;
+    margin-right: 2px;
+}
+
+QTabBar::tab:selected {
+    background-color: #645B4E;
+    color: #D7CBBD;
+    border: 2px solid #3E2B22;
+    border-bottom: none;
+}
+
+QTabBar::tab:hover:!selected {
+    background-color: #B7AC9B;
+}
+
+/* Styling for content inside tabs */
+QWidget#Filters_tab, QWidget#FrequencyFilters_tab, QWidget#Noise_tab, 
+QWidget#Edges_tab, QWidget#Equalization_tab, QWidget#Normalization_tab,
+QWidget#Thresholding_tab, QWidget#Hybrid_tab, QWidget#Histograms_tab {
+    background-color: #645B4E;
+    border-radius: 15px;
+}
+
+/* For widgets that will be inside the tabs */
+QWidget#Filters_tab &gt; QWidget,
+QWidget#FrequencyFilters_tab &gt; QWidget,
+QWidget#Noise_tab &gt; QWidget,
+QWidget#Edges_tab &gt; QWidget,
+QWidget#Equalization_tab &gt; QWidget,
+QWidget#Normalization_tab &gt; QWidget,
+QWidget#Thresholding_tab &gt; QWidget,
+QWidget#Thresholding_tab &gt; QWidget,
+QWidget#Hybrid_tab &gt; QWidget,
+QWidget#Histograms_tab &gt; QWidget {
+    background-color: #F2EEEB;
+    border-radius: 10px;
+}
+
+/* Push buttons that will be added to tabs */
+QPushButton {
+    background-color: #F2EEEB;
+    border-radius: 10px;
+    color: #645B4E;
+    font-size: 13px;
+    font-weight: 700;
+    border: 3px solid #3E2B22;
+    letter-spacing: 0.8px;
+    line-height: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 8px 15px;
+}
+
+QPushButton:hover {
+    background-color: #B7AC9B;
+}
+
+/* Additional styling for common widgets that might be used in tabs */
+QLineEdit, QComboBox, QSpinBox, QDoubleSpinBox {
+    background-color: #F2EEEB;
+    border: 2px solid #3E2B22;
+    border-radius: 5px;
+    padding: 5px;
+    color: #3E2B22;
+}
+
+QSlider::groove:horizontal {
+    border: 1px solid #3E2B22;
+    height: 8px;
+    background: #F2EEEB;
+    border-radius: 4px;
+}
+
+QSlider::handle:horizontal {
+    background: #645B4E;
+    border: 2px solid #3E2B22;
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">/* Main application background */
+QMainWindow {
+    background-color: #D7CBBD;
+}
+
+/* Main container widget */
+QWidget#centralwidget {
+    background-color: #D7CBBD;
+}
+
+/* Main title label */
+QLabel#label {
+    color: #3E2B22;
+    font-size: 20pt;
+    font-weight: normal;
+    padding: 10px;
+    background-color: #645B4E;
+    border-radius: 10px;
+    color: #D7CBBD;
+}
+
+/* Tab Widget styling */
+QTabWidget::pane {
+    background-color: #645B4E;
+    border: 3px solid #3E2B22;
+    border-radius: 20px;
+    padding: 5px;
+}
+
+QTabWidget::tab-bar {
+    alignment: center;
+}
+
+QTabBar::tab {
+    background-color: #F2EEEB;
+    color: #645B4E;
+    font-weight: bold;
+    border: 2px solid #3E2B22;
+    border-bottom: none;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding: 8px 15px;
+    margin-right: 2px;
+}
+
+QTabBar::tab:selected {
+    background-color: #645B4E;
+    color: #D7CBBD;
+    border: 2px solid #3E2B22;
+    border-bottom: none;
+}
+
+QTabBar::tab:hover:!selected {
+    background-color: #B7AC9B;
+}
+
+/* Styling for content inside tabs */
+QWidget#Filters_tab, QWidget#FrequencyFilters_tab, QWidget#Noise_tab, 
+QWidget#Edges_tab, QWidget#Equalization_tab, QWidget#Normalization_tab,
+QWidget#Thresholding_tab, QWidget#Hybrid_tab, QWidget#Histograms_tab {
+    background-color: #645B4E;
+    border-radius: 15px;
+}
+
+/* For widgets that will be inside the tabs */
+QWidget#Filters_tab &gt; QWidget,
+QWidget#FrequencyFilters_tab &gt; QWidget,
+QWidget#Noise_tab &gt; QWidget,
+QWidget#Edges_tab &gt; QWidget,
+QWidget#Equalization_tab &gt; QWidget,
+QWidget#Normalization_tab &gt; QWidget,
+QWidget#Thresholding_tab &gt; QWidget,
+QWidget#Thresholding_tab &gt; QWidget,
+QWidget#Hybrid_tab &gt; QWidget,
+QWidget#Histograms_tab &gt; QWidget {
+    background-color: #F2EEEB;
+    border-radius: 10px;
+}
+
+/* Push buttons that will be added to tabs */
+QPushButton {
+    background-color: #F2EEEB;
+    border-radius: 10px;
+    color: #645B4E;
+    font-size: 13px;
+    font-weight: 700;
+    border: 3px solid #3E2B22;
+    letter-spacing: 0.8px;
+    line-height: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 8px 15px;
+}
+
+QPushButton:hover {
+    background-color: #B7AC9B;
+}
+
+/* Additional styling for common widgets that might be used in tabs */
+QLineEdit, QComboBox, QSpinBox, QDoubleSpinBox {
+    background-color: #F2EEEB;
+    border: 2px solid #3E2B22;
+    border-radius: 5px;
+    padding: 5px;
+    color: #3E2B22;
+}
+
+QSlider::groove:horizontal {
+    border: 1px solid #3E2B22;
+    height: 8px;
+    background: #F2EEEB;
+    border-radius: 4px;
+}
+
+QSlider::handle:horizontal {
+    background: #645B4E;
+    border: 2px solid #3E2B22;
+    width: 18px;
+    height: 18px;
+    border-radius: 9px;
+}</string>
+   </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <widget class="QLabel" name="label">
