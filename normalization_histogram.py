@@ -9,13 +9,15 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 
-class MainWindow(QWidget):
+class NormalizationWidget(QWidget):
     def __init__(self):
-        super(MainWindow, self).__init__()
+        super().__init__()
         loader = QUiLoader()
         ui_file = QFile("normalization_histogram.ui")
         ui_file.open(QFile.ReadOnly)
         self.ui = loader.load(ui_file, self)
+        ui_file.close()
+
 
         self.LoadImageBtn = self.ui.findChild(QPushButton, "LoadImage")
         self.NormalizeBtn = self.ui.findChild(QPushButton, "Normlize")
@@ -221,6 +223,9 @@ class MainWindow(QWidget):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = MainWindow()
+
+    window = QMainWindow()
+    window.setCentralWidget(NormalizationWidget())
     window.show()
+
     sys.exit(app.exec_())

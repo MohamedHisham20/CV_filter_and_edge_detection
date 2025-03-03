@@ -1,6 +1,8 @@
+import sys
+
 import numpy as np
-from PySide6.QtWidgets import QLabel, QVBoxLayout, QPushButton, QWidget, QFileDialog, QComboBox,\
-    QSlider, QHBoxLayout, QGroupBox
+from PySide6.QtWidgets import QLabel, QVBoxLayout, QPushButton, QWidget, QFileDialog, QComboBox, \
+    QSlider, QHBoxLayout, QGroupBox, QApplication, QMainWindow
 from PySide6.QtGui import QImage, QPixmap, Qt
 import cv2
 
@@ -320,8 +322,9 @@ class DetectEdgesWidget(QWidget):
 #         self.resize(800, 600)
 #
 #
-# if __name__ == "__main__":
-#     app = QApplication(sys.argv)
-#     window = MainWindow()
-#     window.show()
-#     sys.exit(app.exec())
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = QMainWindow()
+    window.setCentralWidget(DetectEdgesWidget())
+    window.show()
+    sys.exit(app.exec())
