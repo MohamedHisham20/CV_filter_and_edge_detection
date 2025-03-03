@@ -283,7 +283,7 @@ QSlider::handle:horizontal {
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>5</number>
       </property>
       <widget class="QWidget" name="Filters_tab">
        <property name="sizePolicy">
@@ -322,9 +322,9 @@ QSlider::handle:horizontal {
         <string>Equalization</string>
        </attribute>
       </widget>
-      <widget class="QWidget" name="Normalization_tab">
+      <widget class="QWidget" name="Normalization_histogram_tab">
        <attribute name="title">
-        <string>Normalization</string>
+        <string>Normalization and Histogram</string>
        </attribute>
       </widget>
       <widget class="QWidget" name="Thresholding_tab">
@@ -335,11 +335,6 @@ QSlider::handle:horizontal {
       <widget class="QWidget" name="Hybrid_tab">
        <attribute name="title">
         <string>Hybrid</string>
-       </attribute>
-      </widget>
-      <widget class="QWidget" name="Histograms_tab">
-       <attribute name="title">
-        <string>Histograms</string>
        </attribute>
       </widget>
      </widget>
