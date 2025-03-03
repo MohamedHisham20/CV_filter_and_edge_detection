@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1880</width>
+    <height>849</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:#D7CBBD;</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>490</y>
+      <width>861</width>
+      <height>331</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:#645B4E;
+border-radius:20px;
+border:3px solid #3E2B22;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>1010</x>
+      <y>490</y>
+      <width>861</width>
+      <height>331</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:#645B4E;
+border-radius:20px;
+border:3px solid #3E2B22;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Normlize">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>110</y>
+      <width>121</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+ background-color: #F2EEEB;
+ border-radius: 10px;
+ color: #645B4E;
+ font-size: 13px;
+ font-weight: 700;
+border:3px solid #3E2B22;
+ letter-spacing: .8px;
+ line-height: 20px;
+ text-align: center;
+ text-transform: uppercase;
+	}
+
+QPushButton:hover{
+	
+	background-color:#B7AC9B;
+	}
+
+
+
+
+
+</string>
+    </property>
+    <property name="text">
+     <string>Normlize</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="LoadImage">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>30</y>
+      <width>121</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+ background-color: #F2EEEB;
+ border-radius: 10px;
+ color: #645B4E;
+ font-size: 13px;
+ font-weight: 700;
+border:3px solid #3E2B22;
+ letter-spacing: .8px;
+ line-height: 20px;
+ text-align: center;
+ text-transform: uppercase;
+	}
+
+QPushButton:hover{
+	
+	background-color:#B7AC9B;
+	}
+
+
+
+
+
+</string>
+    </property>
+    <property name="text">
+     <string>Load Image</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="Histogram" native="true">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>550</y>
+      <width>821</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:#F2EEEB;
+border-radius:20px;</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="HistogramCDF" native="true">
+    <property name="geometry">
+     <rect>
+      <x>1030</x>
+      <y>550</y>
+      <width>821</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:#F2EEEB;
+border-radius:20px;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>1861</width>
+      <height>471</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:#645B4E;
+border-radius:20px;
+border:3px solid #3E2B22;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QWidget" name="InputImage" native="true">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>20</y>
+      <width>831</width>
+      <height>451</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:#F2EEEB;
+border-radius:20px;</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="OutputImage" native="true">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>20</y>
+      <width>831</width>
+      <height>451</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:#F2EEEB;
+border-radius:20px;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>500</y>
+      <width>801</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:#645B4E;
+color:#D7CBBD;
+font-size:30px;
+border-bottom: 4px solid #D7CBBD;
+font-weight:bold;</string>
+    </property>
+    <property name="text">
+     <string>Histogram</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>1040</x>
+      <y>500</y>
+      <width>801</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:#645B4E;
+color:#D7CBBD;
+font-size:30px;
+border-bottom: 4px solid #D7CBBD;
+font-weight:bold;</string>
+    </property>
+    <property name="text">
+     <string>CDF</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>20</y>
+      <width>141</width>
+      <height>451</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color:#645B4E;
+border-radius:20px;
+border:2px solid #D7CBBD;</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <zorder>label_2</zorder>
+   <zorder>label_3</zorder>
+   <zorder>Histogram</zorder>
+   <zorder>HistogramCDF</zorder>
+   <zorder>label_4</zorder>
+   <zorder>InputImage</zorder>
+   <zorder>OutputImage</zorder>
+   <zorder>label</zorder>
+   <zorder>label_5</zorder>
+   <zorder>label_6</zorder>
+   <zorder>LoadImage</zorder>
+   <zorder>Normlize</zorder>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
