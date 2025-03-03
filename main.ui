@@ -149,7 +149,7 @@ QWidget#centralwidget {
 }
 
 /* Main title label */
-QLabel#label {
+QLabel {
     color: #3E2B22;
     font-size: 20pt;
     font-weight: normal;

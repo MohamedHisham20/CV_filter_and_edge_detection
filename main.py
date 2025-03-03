@@ -8,6 +8,7 @@ from filterNoise import FilterNoiseWidget
 from detectEdges import DetectEdgesWidget
 from frequencyFilter import FrequencyFilterWidget
 from hybridImages import HybridImagesWidget
+from normalization_histogram import NormalizationWidget
 import sys
 
 
@@ -29,12 +30,14 @@ class MainWindow(QMainWindow):
         self.detectEdges_widget = DetectEdgesWidget()
         self.frequencyFilter_widget = FrequencyFilterWidget()
         self.hybridImages_widget = HybridImagesWidget()
+        self.normalization_widget = NormalizationWidget()
 
         filters_tab = self.tabWidget.widget(0)
         frequency_domain_filters_tab = self.tabWidget.widget(1)
         noise_tab = self.tabWidget.widget(2)
         edge_detection_tab = self.tabWidget.widget(3)
         equalization_tab = self.tabWidget.widget(4)
+        normalization_tab = self.tabWidget.widget(5)
         thresholding_tab = self.tabWidget.widget(6)
         hybrid_tab = self.tabWidget.widget(7)
 
@@ -58,6 +61,10 @@ class MainWindow(QMainWindow):
         if not noise_tab.layout():
             from PySide6.QtWidgets import QVBoxLayout
             noise_tab.setLayout(QVBoxLayout())
+
+        if not normalization_tab.layout():
+            from PySide6.QtWidgets import QVBoxLayout
+            normalization_tab.setLayout(QVBoxLayout())
         
         if not edge_detection_tab.layout():
             from PySide6.QtWidgets import QVBoxLayout
@@ -72,6 +79,7 @@ class MainWindow(QMainWindow):
         thresholding_tab.layout().addWidget(self.thresholding_widget)
         noise_tab.layout().addWidget(self.addNoise_widget)
         filters_tab.layout().addWidget(self.filterNoise_widget)
+        normalization_tab.layout().addWidget(self.normalization_widget)
         edge_detection_tab.layout().addWidget(self.detectEdges_widget)
         hybrid_tab.layout().addWidget(self.hybridImages_widget)
 
