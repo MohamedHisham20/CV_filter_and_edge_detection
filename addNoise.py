@@ -11,30 +11,48 @@ class AddNoiseWidget(QWidget):
     def __init__(self):
         super().__init__()
         self.image = None
-        self.original_image = None  # Keep a copy of the original image
+        self.original_image = None
         self.modified_image = None
         self.setWindowTitle("Add Noise")
 
-        # Main layout
+        # Main layout - set to fill the entire window
         self.layout = QVBoxLayout()
+        self.layout.setContentsMargins(10, 10, 10, 10)  # Add some margin
+        self.layout.setSpacing(10)  # Space between elements
 
-        # Image display
+        # Create a horizontal layout for the main content that will fill the entire window
+        main_content_layout = QHBoxLayout()
+
+        # Left side - Image display
+        image_container = QWidget()
+        image_layout = QVBoxLayout(image_container)
+        image_layout.setContentsMargins(0, 0, 0, 0)  # Remove internal margins
+
         self.image_label = QLabel()
-        self.image_label.setMinimumSize(600, 400)
+        self.image_label.setMinimumSize(400, 300)
         self.image_label.setAlignment(Qt.AlignCenter)
-        self.layout.addWidget(self.image_label)
+        self.image_label.setStyleSheet("border: 1px solid gray; background-color: #f0f0f0;")
 
-        # Load image button
+        image_layout.addWidget(self.image_label)
+
+        # Add the image container to the main horizontal layout
+        main_content_layout.addWidget(image_container, 3)  # Give image more stretch factor
+
+        # Right side - Controls
+        controls_container = QWidget()
+        controls_layout = QVBoxLayout(controls_container)
+        controls_layout.setContentsMargins(0, 0, 0, 0)  # Remove internal margins
+
+        # Load and Reset buttons
         button_layout = QHBoxLayout()
         self.load_image_button = QPushButton("Load Image")
         self.load_image_button.clicked.connect(self.load_image)
         button_layout.addWidget(self.load_image_button)
 
-        # Reset image button
         self.reset_button = QPushButton("Reset Image")
         self.reset_button.clicked.connect(self.reset_image)
         button_layout.addWidget(self.reset_button)
-        self.layout.addLayout(button_layout)
+        controls_layout.addLayout(button_layout)
 
         # Noise type selector
         noise_type_layout = QHBoxLayout()
@@ -49,23 +67,22 @@ class AddNoiseWidget(QWidget):
             "Uniform (OpenCV)"
         ])
         noise_type_layout.addWidget(self.noise_type_menu)
-        self.layout.addLayout(noise_type_layout)
+        controls_layout.addLayout(noise_type_layout)
 
-        # Noise parameter sliders
         # Noise level/intensity
         noise_level_layout = QHBoxLayout()
         noise_level_layout.addWidget(QLabel("Noise Intensity:"))
         self.noise_level_slider = QSlider(Qt.Horizontal)
         self.noise_level_slider.setMinimum(0)
         self.noise_level_slider.setMaximum(100)
-        self.noise_level_slider.setValue(25)  # Default to lower value
+        self.noise_level_slider.setValue(25)
         self.noise_level_label = QLabel("25%")
         self.noise_level_slider.valueChanged.connect(self.update_noise_level_label)
         noise_level_layout.addWidget(self.noise_level_slider)
         noise_level_layout.addWidget(self.noise_level_label)
-        self.layout.addLayout(noise_level_layout)
+        controls_layout.addLayout(noise_level_layout)
 
-        # For Gaussian noise - standard deviation
+        # Standard deviation for Gaussian noise
         std_layout = QHBoxLayout()
         std_layout.addWidget(QLabel("Standard Deviation (Gaussian):"))
         self.std_slider = QSlider(Qt.Horizontal)
@@ -76,41 +93,50 @@ class AddNoiseWidget(QWidget):
         self.std_slider.valueChanged.connect(self.update_std_label)
         std_layout.addWidget(self.std_slider)
         std_layout.addWidget(self.std_label)
-        self.layout.addLayout(std_layout)
+        controls_layout.addLayout(std_layout)
 
         # Salt and Pepper probability
         sp_layout = QHBoxLayout()
         sp_layout.addWidget(QLabel("Salt and Pepper Ratio:"))
         self.sp_slider = QSlider(Qt.Horizontal)
         self.sp_slider.setMinimum(1)
-        self.sp_slider.setMaximum(50)  # Max 50% for S&P noise
+        self.sp_slider.setMaximum(50)
         self.sp_slider.setValue(5)
         self.sp_label = QLabel("5%")
         self.sp_slider.valueChanged.connect(self.update_sp_label)
         sp_layout.addWidget(self.sp_slider)
         sp_layout.addWidget(self.sp_label)
-        self.layout.addLayout(sp_layout)
+        controls_layout.addLayout(sp_layout)
 
-        # Checkbox to preserve the original noise image
-        preserve_layout = QHBoxLayout()
-        self.preserve_checkbox = QCheckBox("Save original noisy image for comparison")
-        self.preserve_checkbox.setChecked(True)
-        preserve_layout.addWidget(self.preserve_checkbox)
-        self.layout.addLayout(preserve_layout)
-
-        # Add noise button
+        # Action buttons
         action_layout = QHBoxLayout()
         self.add_noise_button = QPushButton("Add Noise")
         self.add_noise_button.clicked.connect(self.add_noise)
         action_layout.addWidget(self.add_noise_button)
 
-        # Save image button
         self.save_image_button = QPushButton("Save Image")
         self.save_image_button.clicked.connect(self.save_image)
         action_layout.addWidget(self.save_image_button)
-        self.layout.addLayout(action_layout)
+        controls_layout.addLayout(action_layout)
+
+        # Add stretch at the bottom of controls to push everything up
+        controls_layout.addStretch(1)
+
+        # Add the controls container to the main horizontal layout
+        main_content_layout.addWidget(controls_container, 2)
+
+        # Add the main content layout to the parent layout - THIS IS THE KEY CHANGE
+        # Instead of just adding the layout, we'll create a container widget
+        main_content_widget = QWidget()
+        main_content_widget.setLayout(main_content_layout)
+
+        # Add this widget to the main layout and have it take up all available space
+        self.layout.addWidget(main_content_widget)
 
         self.setLayout(self.layout)
+
+        # Set a minimum size for the widget
+        self.setMinimumSize(800, 600)
 
         # Initialize state
         self.update_noise_level_label(self.noise_level_slider.value())
@@ -121,7 +147,7 @@ class AddNoiseWidget(QWidget):
         self.last_noise_type = None
         self.last_noise_params = {}
 
-        # For storing the noisy image (to compare with filtered results)
+        # For storing the noisy image
         self.noisy_image = None
 
     def update_noise_level_label(self, value):
@@ -162,8 +188,11 @@ class AddNoiseWidget(QWidget):
         qimage = QImage(self.modified_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
         pixmap = QPixmap.fromImage(qimage)
 
+        # Get the current size of the image label
+        label_size = self.image_label.size()
+
         # Scale pixmap to fit in label while maintaining aspect ratio
-        scaled_pixmap = pixmap.scaled(self.image_label.size(),
+        scaled_pixmap = pixmap.scaled(label_size.width(), label_size.height(),
                                       Qt.KeepAspectRatio,
                                       Qt.SmoothTransformation)
 
@@ -180,7 +209,7 @@ class AddNoiseWidget(QWidget):
             cv2.imwrite(file_name, image_to_save)
 
             # If we have a noisy image and want to save it too
-            if self.noisy_image is not None and self.preserve_checkbox.isChecked():
+            if self.noisy_image is not None:
                 # Add "_noisy" suffix to the filename
                 noisy_file_name = file_name.split('.')
                 noisy_file_name = noisy_file_name[0] + "_noisy." + noisy_file_name[1]
@@ -218,9 +247,6 @@ class AddNoiseWidget(QWidget):
         elif "Uniform (OpenCV)" in noise_type:
             self.modified_image = self.add_uniform_noise_openCV(self.image.copy(), noise_level)
 
-        # Store the noisy image for comparison with filtered results
-        if self.preserve_checkbox.isChecked():
-            self.noisy_image = self.modified_image.copy()
 
         self.show_image()
 
