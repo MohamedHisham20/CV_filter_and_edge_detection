@@ -1,19 +1,27 @@
 import sys
 import cv2
 import numpy as np
-from PyQt5.QtWidgets import QApplication, QMainWindow, QFileDialog, QLabel, QVBoxLayout
-from PyQt5.QtGui import QImage, QPixmap
-from PyQt5.uic import loadUi
+from PySide6.QtCore import QFile
+from PySide6.QtWidgets import QApplication, QMainWindow, QFileDialog, QLabel, QVBoxLayout, QPushButton, QWidget
+from PySide6.QtGui import QImage, QPixmap
+from PySide6.QtUiTools import QUiLoader
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 
-class MainWindow(QMainWindow):
+class MainWindow(QWidget):
     def __init__(self):
         super(MainWindow, self).__init__()
-        loadUi("CV_Task01.ui", self) 
-        self.LoadImage.clicked.connect(self.load_image)
-        self.Normlize.clicked.connect(self.normalize_image)
+        loader = QUiLoader()
+        ui_file = QFile("normalization_histogram.ui")
+        ui_file.open(QFile.ReadOnly)
+        self.ui = loader.load(ui_file, self)
+
+        self.LoadImageBtn = self.ui.findChild(QPushButton, "LoadImage")
+        self.NormalizeBtn = self.ui.findChild(QPushButton, "Normlize")
+
+        self.LoadImageBtn.clicked.connect(self.load_image)
+        self.NormalizeBtn.clicked.connect(self.normalize_image)
         self.image = None
         self.normalized_image = None
 
@@ -209,7 +217,6 @@ class MainWindow(QMainWindow):
                 self.display_image(self.normalized_image, self.OutputImage)
         except Exception as e:
             print(f"Error in normalize_image: {e}")
-
 
 
 if __name__ == "__main__":
