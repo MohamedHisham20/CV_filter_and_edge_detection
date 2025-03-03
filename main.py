@@ -22,7 +22,6 @@ class MainWindow(QMainWindow):
         
         self.tabWidget = self.ui.findChild(QTabWidget, "main")
 
-        
         self.equalizing_widget = EqualizingWidget()
         self.thresholding_widget = ThresholdingWidget()
         self.addNoise_widget = AddNoiseWidget()

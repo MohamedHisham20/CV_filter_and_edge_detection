@@ -18,7 +18,6 @@ class NormalizationWidget(QWidget):
         self.ui = loader.load(ui_file, self)
         ui_file.close()
 
-
         self.LoadImageBtn = self.ui.findChild(QPushButton, "LoadImage")
         self.NormalizeBtn = self.ui.findChild(QPushButton, "Normlize")
 
