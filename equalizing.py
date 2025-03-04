@@ -89,13 +89,12 @@ class EqualizingWidget(QWidget):
         # RGB to greyscale
         gray_image = np.dot(self.image[...,:3], [0.114, 0.587, 0.299]).astype(np.uint8)
 
-        # equalization (not sure yet if the result should be greyscale or RGB)
+        # equalization 
         hist, bins = np.histogram(gray_image.flatten(), bins=256, range=[0, 256])
         cdf = hist.cumsum()
         cdf_normalized = cdf * 255 / cdf[-1]
         equalized_array = cdf_normalized[gray_image].astype(np.uint8)
 
-        # greyscale to RGB
         self.modified_image = np.stack((equalized_array,) * 3, axis=-1)  
 
         self.show_image("modified")
