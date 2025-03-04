@@ -10,6 +10,7 @@ class EqualizingWidget(QWidget):
         self.image = None
         self.modified_image = None
         self.setWindowTitle("Equalize")
+        self.setBaseSize(1200, 800)
         self.layout = QVBoxLayout()
         
         # handling images and their layout
@@ -22,7 +23,7 @@ class EqualizingWidget(QWidget):
         self.original_label.setMaximumSize(800, 20)
         self.original_layout = QVBoxLayout()
         self.image_label = QLabel()
-        self.image_label.setMaximumSize(600, 400)
+        self.image_label.setMaximumSize(500, 600)
         self.image_label.setAlignment(Qt.AlignCenter)
         self.original_layout.addWidget(self.original_label)
         self.original_layout.addWidget(self.image_label)
@@ -35,7 +36,7 @@ class EqualizingWidget(QWidget):
         self.modified_label.setMaximumSize(600, 20)
         self.modified_layout = QVBoxLayout()
         self.modified_image_label = QLabel()
-        self.modified_image_label.setMaximumSize(600, 400)
+        self.modified_image_label.setMaximumSize(500, 600)
         self.modified_image_label.setAlignment(Qt.AlignCenter)
         self.modified_layout.addWidget(self.modified_label)
         self.modified_layout.addWidget(self.modified_image_label)
@@ -71,11 +72,14 @@ class EqualizingWidget(QWidget):
         bytes_per_line = ch * w
         qimage = QImage(self.modified_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
         pixmap = QPixmap.fromImage(qimage)
+        scaled_pixmap = pixmap.scaled(self.image_label.size(),
+                                      Qt.KeepAspectRatio,
+                                      Qt.SmoothTransformation)
         if type == "original":
-            self.image_label.setPixmap(pixmap)
+            self.image_label.setPixmap(scaled_pixmap)
             self.image_label.setScaledContents(True)  
         else:
-            self.modified_image_label.setPixmap(pixmap)
+            self.modified_image_label.setPixmap(scaled_pixmap)
             self.modified_image_label.setScaledContents(True)
     
     def equalize(self):
@@ -95,6 +99,11 @@ class EqualizingWidget(QWidget):
         self.modified_image = np.stack((equalized_array,) * 3, axis=-1)  
 
         self.show_image("modified")
+        
+        # #OpenCV implementation to check if the result is correct
+        # equalized_image = cv2.equalizeHist(gray_image)
+        # self.modified_image = cv2.cvtColor(equalized_image, cv2.COLOR_GRAY2RGB)
+        # self.show_image("modified")
 
 # class MainWindow(QMainWindow):
 #     def __init__(self):
