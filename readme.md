@@ -35,22 +35,26 @@ A desktop application built using PyQt5 and OpenCV to perform essential image pr
 
 8. Apply thresholding techniques:
    - Global thresholding
+     
    ![Global](screenshots/global.png)
-   - Adaptive (local) thresholding  
+
+   - Adaptive (local) thresholding
+    
    ![Local](screenshots/local.png)
 
 9. Convert RGB images to grayscale using perceptual weighting.
 
 10. Apply frequency domain filtering using Fourier transforms and adjustable masks.  
 
-    Original
+    ### Original
+    
     ![Original](data/linda(2).png)
 
     ![Low Pass](screenshots/lp_linda.png)
 
     ![High Pass](screenshots/hp_linda.png)
 
-11. Create hybrid images by combining low-pass and high-pass features from two images.  
+12. Create hybrid images by combining low-pass and high-pass features from two images.  
     ![Hybrid results](screenshots/hybrid.png)
 
 ---
