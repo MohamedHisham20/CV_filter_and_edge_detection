@@ -109,7 +109,7 @@ class ThresholdingWidget(QWidget):
          
         self.show_image(self.modified_image_label, self.modified_image)
         
-        # OpenCV implementation to check the result
+        # #OpenCV implementation to check the result
         # self.modified_image = cv2.adaptiveThreshold(self.image, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, block_size, constant)
         # self.show_image(self.modified_image_label, self.modified_image)
         
@@ -125,7 +125,7 @@ class ThresholdingWidget(QWidget):
         
         self.show_image(self.modified_image_label, self.modified_image)
         
-        # OpenCV implementation to check the result
+        # #OpenCV implementation to check the result
         # _, self.modified_image = cv2.threshold(self.image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
         # self.show_image(self.modified_image_label, self.modified_image)
             
